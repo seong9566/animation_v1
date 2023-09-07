@@ -1,3 +1,4 @@
+import 'package:animation_v1/screens/onboding/onboding_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,6 +10,9 @@ class AnimationV1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp();
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: OnBodingScreen(),
+    );
   }
 }
