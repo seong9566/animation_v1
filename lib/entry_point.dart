@@ -23,7 +23,10 @@ class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateM
 
   // 화면을 부드럽게 이동 시켜주기 위한 애니메이션 Controller
   late AnimationController _animationController;
+  //trans를 위한 animation
   late Animation<double> animation;
+  //scale를 위한 animation
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -34,6 +37,9 @@ class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateM
         setState(() {});
       });
     animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.fastOutSlowIn),
+    );
+    scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.fastOutSlowIn),
     );
     super.initState();
@@ -70,7 +76,7 @@ class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateM
             offset: Offset(animation.value * 288, 0),
             //scale는 자식 위젯의 크기를 조정한다. 주로 동적으로 변하는 화면에 사용할 수 있다.
             child: Transform.scale(
-              scale: isSideMenuClosed ? 1 : 0.8,
+              scale: scaleAnimation.value,
               child: const ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(24),
