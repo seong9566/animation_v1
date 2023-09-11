@@ -1,5 +1,7 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:animation_v1/entry_point.dart';
+import 'package:animation_v1/utils/rive_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,12 +29,6 @@ class _SignInFormState extends State<SignInForm> {
 
   late SMITrigger confetti;
 
-  StateMachineController getRiveController(Artboard artbord) {
-    StateMachineController? controller = StateMachineController.fromArtboard(artbord, "State Machine 1");
-    artbord.addController(controller!);
-    return controller;
-  }
-
   void signIn(BuildContext context) {
     setState(() {
       isShowLoading = true;
@@ -50,6 +46,14 @@ class _SignInFormState extends State<SignInForm> {
             isShowLoading = false;
           });
           confetti.fire();
+          Future.delayed(const Duration(seconds: 1), () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EntryPoint(),
+              ),
+            );
+          });
         });
       } else {
         //실패
@@ -157,7 +161,7 @@ class _SignInFormState extends State<SignInForm> {
                 child: RiveAnimation.asset(
                   "assets/RiveAssets/check.riv",
                   onInit: (artboard) {
-                    StateMachineController controller = getRiveController(artboard);
+                    StateMachineController controller = RiveUtils.getRiveController(artboard);
                     check = controller.findSMI("Check") as SMITrigger;
                     error = controller.findSMI("Error") as SMITrigger;
                     reset = controller.findSMI("Reset") as SMITrigger;
@@ -172,7 +176,7 @@ class _SignInFormState extends State<SignInForm> {
                   child: RiveAnimation.asset(
                     "assets/RiveAssets/confetti.riv",
                     onInit: (artboard) {
-                      StateMachineController controller = getRiveController(artboard);
+                      StateMachineController controller = RiveUtils.getRiveController(artboard);
 
                       confetti = controller.findSMI("Trigger explosion") as SMITrigger;
                     },
