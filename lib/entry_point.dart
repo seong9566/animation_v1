@@ -1,4 +1,5 @@
 import 'package:animation_v1/constants.dart';
+import 'package:animation_v1/screens/home/home_screen.dart';
 import 'package:animation_v1/utils/rive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -17,6 +18,7 @@ class _EntryPointState extends State<EntryPoint> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: const HomeScreen(),
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(12), // 안쪽의 여백

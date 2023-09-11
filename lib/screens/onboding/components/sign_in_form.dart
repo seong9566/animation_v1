@@ -36,7 +36,7 @@ class _SignInFormState extends State<SignInForm> {
         isShowConfetti = true;
       });
     });
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       if (formKey.currentState!.validate()) {
         //성공
         check.fire();
@@ -58,7 +58,7 @@ class _SignInFormState extends State<SignInForm> {
       } else {
         //실패
         error.fire();
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 1), () {
           setState(() {
             isShowLoading = false;
           });
