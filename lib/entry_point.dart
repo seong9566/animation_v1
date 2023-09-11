@@ -18,6 +18,10 @@ class _EntryPointState extends State<EntryPoint> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 키보드가 화면을 겹치게 함
+      resizeToAvoidBottomInset: false,
+      //body영역을 바닥까지 보이게 해줌.
+      extendBody: true,
       body: const HomeScreen(),
       bottomNavigationBar: SafeArea(
         child: Container(
