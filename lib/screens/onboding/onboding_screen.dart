@@ -1,8 +1,10 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
+
+import 'components/animated_btn.dart';
+import 'components/custom_sign_in_dialog.dart';
 
 class OnBodingScreen extends StatefulWidget {
   const OnBodingScreen({super.key});
@@ -13,7 +15,7 @@ class OnBodingScreen extends StatefulWidget {
 
 class _OnBodingScreenState extends State<OnBodingScreen> {
   late RiveAnimationController _btnAnimationController;
-
+  bool isSignInDialogShown = false;
   @override
   void initState() {
     _btnAnimationController = OneShotAnimation(
@@ -52,84 +54,70 @@ class _OnBodingScreenState extends State<OnBodingScreen> {
               child: const SizedBox(),
             ),
           ),
-          // Text Area
-          SafeArea(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Column(
-              children: [
-                const SizedBox(
-                  width: 260, // 3 줄로 변경
-                  child: Column(
-                    children: [
-                      Text(
-                        "Learn design & code",
-                        style: TextStyle(
-                          fontSize: 60,
-                          fontFamily: "Poppins",
-                          height: 1.2,
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                          "Don’t skip design. Learn design and code, by building real apps with Flutter and Swift. Complete courses about the best tools."),
-                    ],
-                  ),
-                ),
-                AnimatedBtn(
-                  btnAnimationController: _btnAnimationController,
-                  press: () {
-                    _btnAnimationController.isActive = true;
-                  },
-                ),
-              ],
-            ),
-          ))
-        ],
-      ),
-    );
-  }
-}
 
-class AnimatedBtn extends StatelessWidget {
-  const AnimatedBtn({
-    super.key,
-    required RiveAnimationController btnAnimationController,
-    required this.press,
-  }) : _btnAnimationController = btnAnimationController;
-
-  final RiveAnimationController _btnAnimationController;
-  final VoidCallback press;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: press,
-      child: SizedBox(
-        height: 64,
-        width: 260,
-        child: Stack(
-          // 가로 세로를 선언하지 않을 시 렌더링 에러 발생
-          children: [
-            RiveAnimation.asset(
-              "assets/RiveAssets/button.riv",
-              controllers: [_btnAnimationController],
-            ),
-            const Positioned.fill(
-              top: 8,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+          //Dialog가 열릴때 화면이 조금 위로 이동
+          AnimatedPositioned(
+            top: isSignInDialogShown ? -50 : 0,
+            duration: const Duration(milliseconds: 260),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: SafeArea(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(CupertinoIcons.arrow_right),
-                  SizedBox(width: 8),
-                  Text(
-                    "Start the course",
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                  const Spacer(),
+                  const SizedBox(
+                    width: 260, // 3 줄로 변경
+                    child: Column(
+                      children: [
+                        Text(
+                          "Learn design & code",
+                          style: TextStyle(
+                            fontSize: 60,
+                            fontFamily: "Poppins",
+                            height: 1.2,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                            "Don’t skip design. Learn design and code, by building real apps with Flutter and Swift. Complete courses about the best tools."),
+                      ],
+                    ),
+                  ),
+                  const Spacer(flex: 2),
+                  AnimatedBtn(
+                    btnAnimationController: _btnAnimationController,
+                    press: () {
+                      _btnAnimationController.isActive = true;
+                      //_,__는 사용하지 않는다는 매개변수
+                      Future.delayed(
+                        //showDialog실행 시 배경화면 움직이는 속도
+                        const Duration(milliseconds: 100),
+                        () {
+                          setState(() {
+                            isSignInDialogShown = true;
+                          });
+                        },
+                      );
+                      customSigninDialog(context, onClosed: (_) {
+                        setState(() {
+                          isSignInDialogShown = false;
+                        });
+                      });
+                    },
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child:
+                        Text("Purchase includes access to 30+ courses, 240+ premium tutorials, 120+ hours of videos, source files and certificates."),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
+            )),
+          )
+        ],
       ),
     );
   }
