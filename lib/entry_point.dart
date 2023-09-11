@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:animation_v1/components/side_menu.dart';
 import 'package:animation_v1/constants.dart';
 import 'package:animation_v1/screens/home/home_screen.dart';
@@ -72,35 +73,49 @@ class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateM
             child: const SideMenu(),
           ),
           // Transform.translate는 자식 위젯을 이동시키며. isSideMenuClosed가 클릭되지 않았다면 0 , 클릭 되었다면 가로 288만큼 이동시킨다.
-          Transform.translate(
-            offset: Offset(animation.value * 288, 0),
-            //scale는 자식 위젯의 크기를 조정한다. 주로 동적으로 변하는 화면에 사용할 수 있다.
-            child: Transform.scale(
-              scale: scaleAnimation.value,
-              child: const ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(24),
-                  ),
-                  child: HomeScreen()),
+          Transform(
+            //3D화면
+            alignment: Alignment.center,
+            transform: Matrix4.identity()
+              ..setEntry(3, 2, 0.001)
+              ..rotateY(animation.value - 30 * animation.value * pi / 180),
+            child: Transform.translate(
+              offset: Offset(animation.value * 265, 0),
+              //scale는 자식 위젯의 크기를 조정한다. 주로 동적으로 변하는 화면에 사용할 수 있다.
+              child: Transform.scale(
+                scale: scaleAnimation.value,
+                child: const ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(24),
+                    ),
+                    child: HomeScreen()),
+              ),
             ),
           ),
-          MenuBtn(
-            riveOnInit: (artboard) {
-              StateMachineController controller = RiveUtils.getRiveController(artboard, stateMachineName: "State Machine");
-              isSideBarClosed = controller.findSMI("isOpen") as SMIBool;
-              isSideBarClosed.value = true;
-            },
-            press: () {
-              isSideBarClosed.value = !isSideBarClosed.value;
-              if (isSideMenuClosed) {
-                _animationController.forward();
-              } else {
-                _animationController.reverse();
-              }
-              setState(() {
-                isSideMenuClosed = isSideBarClosed.value;
-              });
-            },
+          AnimatedPositioned(
+            // SideMenu가 열려있을 경우 x버튼을 오른쪽으로 이동
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.fastOutSlowIn,
+            left: isSideMenuClosed ? 0 : 220,
+            top: 16,
+            child: MenuBtn(
+              riveOnInit: (artboard) {
+                StateMachineController controller = RiveUtils.getRiveController(artboard, stateMachineName: "State Machine");
+                isSideBarClosed = controller.findSMI("isOpen") as SMIBool;
+                isSideBarClosed.value = true;
+              },
+              press: () {
+                isSideBarClosed.value = !isSideBarClosed.value;
+                if (isSideMenuClosed) {
+                  _animationController.forward();
+                } else {
+                  _animationController.reverse();
+                }
+                setState(() {
+                  isSideMenuClosed = isSideBarClosed.value;
+                });
+              },
+            ),
           ),
         ],
       ),
