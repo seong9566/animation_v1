@@ -1,4 +1,4 @@
-import 'package:animation_v1/screens/onboding/onboding_screen.dart';
+import 'package:animation_v1/components/side_menu.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +12,8 @@ class AnimationV1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OnBodingScreen(),
+      //home: OnBodingScreen(),
+      home: SideMenu(),
     );
   }
 }
