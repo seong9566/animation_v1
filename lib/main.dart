@@ -1,5 +1,6 @@
-import 'package:animation_v1/components/side_menu.dart';
 import 'package:flutter/material.dart';
+
+import 'entry_point.dart';
 
 void main() {
   runApp(const AnimationV1());
@@ -12,8 +13,14 @@ class AnimationV1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      //home: OnBodingScreen(),
-      home: SideMenu(),
+      home: EntryPoint(),
     );
   }
 }
+
+const defaultInputBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.all(
+    Radius.circular(16),
+  ),
+  borderSide: BorderSide(color: Color(0xFFDEE3F2), width: 1),
+);

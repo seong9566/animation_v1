@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:animation_v1/entry_point.dart';
+import 'package:animation_v1/main.dart';
 import 'package:animation_v1/utils/rive_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -92,10 +93,7 @@ class _SignInFormState extends State<SignInForm> {
                   },
                   onSaved: (email) => {},
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Color.fromARGB(249, 226, 226, 226)),
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
+                    border: defaultInputBorder,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: SvgPicture.asset("assets/icons/email.svg"),
@@ -119,10 +117,7 @@ class _SignInFormState extends State<SignInForm> {
                   onSaved: (password) => {},
                   obscureText: true,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Color.fromARGB(249, 226, 226, 226)),
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
+                    border: defaultInputBorder,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: SvgPicture.asset("assets/icons/password.svg"),
